@@ -1,0 +1,75 @@
+import { setEarthBead, setHeavenlyBead } from '../model/soroban'
+import type { BeadState, RodState } from '../types/soroban'
+import { Bead } from './Bead'
+
+export interface RodProps {
+  rod: RodState
+  className?: string
+  disabled?: boolean
+  onChange?: (rod: RodState) => void
+}
+
+export function Rod({ rod, className, disabled = false, onChange }: RodProps) {
+  const interactive = Boolean(onChange) && !disabled
+
+  function handleBeadPress(bead: BeadState) {
+    if (!onChange || disabled) {
+      return
+    }
+
+    onChange(nextRodAfterBeadPress(rod, bead))
+  }
+
+  return (
+    <div
+      aria-disabled={disabled || undefined}
+      aria-label={`Rod ${rod.index + 1}`}
+      className={rodClassName(disabled, className)}
+      data-rod-index={rod.index}
+      role="group"
+    >
+      <div
+        aria-hidden="true"
+        className="absolute bottom-4 left-1/2 top-4 w-1 -translate-x-1/2 rounded-full bg-slate-700"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute left-2 right-2 top-28 z-20 h-3 -translate-y-1/2 rounded bg-slate-900 shadow-sm"
+      />
+      <div className="absolute left-0 right-0 top-28 h-0">
+        <Bead
+          bead={rod.heavenly}
+          className="z-10"
+          onPress={interactive ? handleBeadPress : undefined}
+        />
+        {rod.earth.map((bead) => (
+          <Bead
+            bead={bead}
+            className="z-10"
+            key={bead.id}
+            onPress={interactive ? handleBeadPress : undefined}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function nextRodAfterBeadPress(rod: RodState, bead: BeadState): RodState {
+  if (bead.kind === 'heavenly') {
+    return setHeavenlyBead(rod, !bead.active)
+  }
+
+  return setEarthBead(rod, bead.index, !bead.active)
+}
+
+function rodClassName(disabled: boolean, className?: string): string {
+  return [
+    'relative h-[22rem] w-24 shrink-0 select-none rounded-md border border-slate-200',
+    'bg-gradient-to-b from-stone-100 via-white to-stone-100',
+    disabled ? 'opacity-60' : '',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ')
+}
