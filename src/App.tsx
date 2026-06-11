@@ -1,4 +1,10 @@
+import { useState } from 'react'
+import { SorobanFrame } from './components/SorobanFrame'
+import { createBoard } from './model/soroban'
+
 function App() {
+  const [board, setBoard] = useState(() => createBoard())
+
   return (
     <div className="flex min-h-screen flex-col bg-stone-50 text-slate-950">
       <header className="border-b border-slate-200 bg-white/85">
@@ -21,26 +27,7 @@ function App() {
           </div>
         </section>
 
-        <section
-          className="min-h-[28rem] rounded-lg border border-slate-300 bg-white shadow-sm"
-          aria-label="Soroban workspace"
-        >
-          <div className="flex h-full min-h-[28rem] flex-col">
-            <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
-              <div className="h-3 w-28 rounded-full bg-slate-200" />
-              <div className="flex gap-2">
-                <span className="h-3 w-3 rounded-full bg-amber-500" />
-                <span className="h-3 w-3 rounded-full bg-sky-500" />
-                <span className="h-3 w-3 rounded-full bg-emerald-500" />
-              </div>
-            </div>
-            <div className="grid flex-1 place-items-center px-5 py-8">
-              <div className="w-full max-w-4xl rounded-md border border-dashed border-slate-300 bg-stone-100/70 p-8">
-                <div className="mx-auto h-56 w-full max-w-3xl rounded bg-white shadow-inner" />
-              </div>
-            </div>
-          </div>
-        </section>
+        <SorobanFrame board={board} onChange={setBoard} />
       </main>
     </div>
   )
