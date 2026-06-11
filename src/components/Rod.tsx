@@ -7,9 +7,16 @@ export interface RodProps {
   className?: string
   disabled?: boolean
   onChange?: (rod: RodState) => void
+  showReckoningBar?: boolean
 }
 
-export function Rod({ rod, className, disabled = false, onChange }: RodProps) {
+export function Rod({
+  rod,
+  className,
+  disabled = false,
+  onChange,
+  showReckoningBar = true,
+}: RodProps) {
   const interactive = Boolean(onChange) && !disabled
 
   function handleBeadPress(bead: BeadState) {
@@ -32,10 +39,12 @@ export function Rod({ rod, className, disabled = false, onChange }: RodProps) {
         aria-hidden="true"
         className="absolute bottom-4 left-1/2 top-4 w-1 -translate-x-1/2 rounded-full bg-slate-700"
       />
-      <div
-        aria-hidden="true"
-        className="absolute left-2 right-2 top-28 z-20 h-3 -translate-y-1/2 rounded bg-slate-900 shadow-sm"
-      />
+      {showReckoningBar ? (
+        <div
+          aria-hidden="true"
+          className="absolute left-2 right-2 top-28 z-20 h-3 -translate-y-1/2 rounded bg-slate-900 shadow-sm"
+        />
+      ) : null}
       <div className="absolute left-0 right-0 top-28 h-0">
         <Bead
           bead={rod.heavenly}
