@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react'
+import { ResetControl } from './components/ResetControl'
 import { RodCountControl } from './components/RodCountControl'
 import { SorobanFrame } from './components/SorobanFrame'
 import { ValueReadout } from './components/ValueReadout'
-import { createBoard, resizeBoard } from './model/soroban'
+import { clearBoard, createBoard, resizeBoard } from './model/soroban'
 import { computeBoardValue } from './model/value'
 
 function App() {
@@ -12,6 +13,10 @@ function App() {
 
   function handleRodCountChange(nextRodCount: number) {
     setBoard((currentBoard) => resizeBoard(currentBoard, nextRodCount))
+  }
+
+  function handleReset() {
+    setBoard((currentBoard) => clearBoard(currentBoard))
   }
 
   return (
@@ -24,18 +29,19 @@ function App() {
       </header>
 
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-5 py-8 sm:px-8 lg:py-12">
-        <section className="grid gap-4 md:grid-cols-[minmax(0,1fr)_32rem] md:items-end">
+        <section className="grid gap-4 md:grid-cols-[minmax(0,1fr)_48rem] md:items-end">
           <div className="space-y-3">
             <p className="text-sm font-medium text-slate-600">Workspace</p>
             <h2 className="max-w-2xl text-3xl font-semibold leading-tight text-slate-950 sm:text-4xl">
               Interactive soroban
             </h2>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-3 sm:grid-cols-3">
             <RodCountControl
               onChange={handleRodCountChange}
               rodCount={rodCount}
             />
+            <ResetControl disabled={boardValue === 0} onReset={handleReset} />
             <ValueReadout value={boardValue} />
           </div>
         </section>
