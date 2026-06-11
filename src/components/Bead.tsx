@@ -158,14 +158,16 @@ function beadClassName(
   className?: string,
 ): string {
   const stateClasses = bead.active
-    ? 'border-amber-800 bg-gradient-to-b from-amber-300 via-orange-500 to-amber-800 shadow-md shadow-amber-950/20'
-    : 'border-stone-500 bg-gradient-to-b from-stone-100 via-stone-300 to-stone-500 opacity-90 shadow-sm shadow-slate-950/10'
+    ? 'border-amber-900 bg-gradient-to-b from-amber-200 via-orange-500 to-amber-900 shadow-lg shadow-amber-950/25'
+    : 'border-stone-500 bg-gradient-to-b from-zinc-50 via-stone-300 to-zinc-500 opacity-95 shadow-sm shadow-slate-950/10'
 
   return [
-    'absolute left-1/2 top-0 h-9 w-16 -translate-x-1/2 translate-y-[var(--bead-y)] overflow-hidden rounded-full border p-0',
-    'transition-[box-shadow,opacity,transform] duration-150 ease-out',
+    'absolute left-1/2 top-0 h-9 w-12 -translate-x-1/2 translate-y-[var(--bead-y)] overflow-hidden rounded-full border p-0 sm:w-16',
+    'transition-[box-shadow,opacity,transform,filter] duration-150 ease-out',
     'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600',
-    interactive ? 'touch-none cursor-grab active:cursor-grabbing' : '',
+    interactive
+      ? 'touch-none cursor-grab hover:brightness-105 active:cursor-grabbing'
+      : '',
     stateClasses,
     className,
   ]
