@@ -17,6 +17,13 @@ The dev server listens on `0.0.0.0:8080`.
 npm run build
 ```
 
+## Code quality
+
+```bash
+npm run lint
+npm run format:check
+```
+
 ## Preview
 
 ```bash
