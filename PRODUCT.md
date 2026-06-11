@@ -17,6 +17,8 @@ the decimal value represented by the bead positions.
 - Reset control clears every rod to zero while preserving the current rod count.
 - Responsive layout and polished bead/frame styling for desktop and narrow
   mobile screens.
+- The repository root includes simple single-line reference markdown files:
+  `abc.md` contains `abc`, and `bcd.md` contains `bcd`.
 
 ## Architecture
 
