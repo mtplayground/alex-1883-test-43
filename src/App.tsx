@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { SorobanFrame } from './components/SorobanFrame'
+import { ValueReadout } from './components/ValueReadout'
 import { createBoard } from './model/soroban'
+import { computeBoardValue } from './model/value'
 
 function App() {
   const [board, setBoard] = useState(() => createBoard())
+  const boardValue = useMemo(() => computeBoardValue(board), [board])
 
   return (
     <div className="flex min-h-screen flex-col bg-stone-50 text-slate-950">
@@ -22,9 +25,7 @@ function App() {
               Interactive soroban
             </h2>
           </div>
-          <div className="rounded-md border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600 shadow-sm">
-            <span className="font-medium text-slate-950">Ready</span>
-          </div>
+          <ValueReadout value={boardValue} />
         </section>
 
         <SorobanFrame board={board} onChange={setBoard} />
