@@ -25,7 +25,7 @@ export function ValueReadout({ value, className }: ValueReadoutProps) {
 
 function valueReadoutClassName(className?: string): string {
   return [
-    'rounded-md border border-slate-200 bg-white px-4 py-3 text-right shadow-sm',
+    'rounded-md border border-slate-200/90 bg-white/95 px-4 py-3 text-right shadow-sm shadow-slate-950/5',
     className,
   ]
     .filter(Boolean)

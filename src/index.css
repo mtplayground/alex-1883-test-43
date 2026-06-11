@@ -28,6 +28,11 @@
     margin: 0;
   }
 
+  ::selection {
+    background: #bae6fd;
+    color: #082f49;
+  }
+
   button,
   input,
   textarea,

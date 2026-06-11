@@ -33,7 +33,7 @@ export function ResetControl({
 
 function resetControlClassName(className?: string): string {
   return [
-    'rounded-md border border-slate-200 bg-white px-4 py-3 text-right shadow-sm',
+    'rounded-md border border-slate-200/90 bg-white/95 px-4 py-3 text-right shadow-sm shadow-slate-950/5',
     className,
   ]
     .filter(Boolean)
@@ -42,10 +42,10 @@ function resetControlClassName(className?: string): string {
 
 function resetButtonClassName(disabled: boolean): string {
   return [
-    'mt-2 h-8 w-full rounded-md border px-3 text-sm font-semibold',
+    'mt-2 h-8 w-full rounded-md border px-3 text-sm font-semibold shadow-sm',
     'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600',
     disabled
       ? 'cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400'
-      : 'border-slate-300 bg-white text-slate-950 hover:bg-slate-50',
+      : 'border-slate-300 bg-white text-slate-950 hover:bg-emerald-50',
   ].join(' ')
 }

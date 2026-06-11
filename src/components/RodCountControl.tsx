@@ -70,7 +70,7 @@ function clampRodCount(rodCount: number, min: number, max: number): number {
 
 function rodCountControlClassName(className?: string): string {
   return [
-    'rounded-md border border-slate-200 bg-white px-4 py-3 text-right shadow-sm',
+    'rounded-md border border-slate-200/90 bg-white/95 px-4 py-3 text-right shadow-sm shadow-slate-950/5',
     className,
   ]
     .filter(Boolean)
@@ -79,10 +79,10 @@ function rodCountControlClassName(className?: string): string {
 
 function stepButtonClassName(enabled: boolean): string {
   return [
-    'grid h-8 w-8 place-items-center rounded-md border text-lg font-semibold leading-none',
+    'grid h-8 w-8 place-items-center rounded-md border text-lg font-semibold leading-none shadow-sm',
     'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600',
     enabled
-      ? 'border-slate-300 bg-white text-slate-950 hover:bg-slate-50'
+      ? 'border-slate-300 bg-white text-slate-950 hover:bg-emerald-50'
       : 'cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400',
   ].join(' ')
 }
