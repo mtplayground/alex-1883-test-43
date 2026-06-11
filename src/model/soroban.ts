@@ -56,6 +56,23 @@ export function clearBoard(board: BoardState): BoardState {
   }
 }
 
+export function resizeBoard(board: BoardState, rodCount: number): BoardState {
+  if (!Number.isInteger(rodCount) || rodCount < 1) {
+    throw new RangeError('Expected rod count to be a positive integer.')
+  }
+
+  if (board.rods.length === rodCount) {
+    return board
+  }
+
+  return {
+    rods: Array.from(
+      { length: rodCount },
+      (_, index) => board.rods[index] ?? createRod(index),
+    ),
+  }
+}
+
 export function setBoardRodDigit(
   board: BoardState,
   rodIndex: number,
