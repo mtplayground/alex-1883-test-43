@@ -27,6 +27,14 @@ export function Rod({
     onChange(nextRodAfterBeadPress(rod, bead))
   }
 
+  function handleBeadDrag(bead: BeadState, active: boolean) {
+    if (!onChange || disabled) {
+      return
+    }
+
+    onChange(nextRodAfterBeadDrag(rod, bead, active))
+  }
+
   return (
     <div
       aria-disabled={disabled || undefined}
@@ -49,6 +57,7 @@ export function Rod({
         <Bead
           bead={rod.heavenly}
           className="z-10"
+          onDrag={interactive ? handleBeadDrag : undefined}
           onPress={interactive ? handleBeadPress : undefined}
         />
         {rod.earth.map((bead) => (
@@ -56,6 +65,7 @@ export function Rod({
             bead={bead}
             className="z-10"
             key={bead.id}
+            onDrag={interactive ? handleBeadDrag : undefined}
             onPress={interactive ? handleBeadPress : undefined}
           />
         ))}
@@ -70,6 +80,18 @@ function nextRodAfterBeadPress(rod: RodState, bead: BeadState): RodState {
   }
 
   return setEarthBead(rod, bead.index, !bead.active)
+}
+
+function nextRodAfterBeadDrag(
+  rod: RodState,
+  bead: BeadState,
+  active: boolean,
+): RodState {
+  if (bead.kind === 'heavenly') {
+    return setHeavenlyBead(rod, active)
+  }
+
+  return setEarthBead(rod, bead.index, active)
 }
 
 function rodClassName(disabled: boolean, className?: string): string {
