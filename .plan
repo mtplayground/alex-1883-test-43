@@ -1,0 +1,59 @@
+Architecture plan for issues #1-#16
+
+Product context
+- The repository currently has no PRODUCT.md. The GitHub issues describe a browser-based soroban/abacus app. Do not introduce any separate brand or placeholder product name unless a later issue or PRODUCT.md provides it.
+
+Project shape
+- Use a Vite + React + TypeScript single-page app, producing a static build suitable for self-hosting.
+- Add Tailwind CSS for layout and component styling after the Vite skeleton exists.
+- Keep the domain model and value computation in pure TypeScript modules so they can be tested independently of React.
+- Use React components only for rendering, interaction, state wiring, and controls.
+
+Proposed file organization
+- package.json, tsconfig*.json, vite.config.ts: baseline Vite/React/TS tooling from issue #1.
+- index.html and src/main.tsx: app bootstrap.
+- src/App.tsx: top-level board state, controls, and layout composition.
+- src/index.css: Tailwind entrypoint and app-level base styles.
+- src/types/soroban.ts: shared bead, rod, and board types.
+- src/model/soroban.ts: pure helpers for creating boards, setting rod digit values, toggling heavenly/earth beads, resetting rods, and resizing boards while preserving state.
+- src/model/value.ts: pure board-to-decimal value engine.
+- src/components/Bead.tsx: presentational bead rendering with active/inactive state and pointer/click affordances.
+- src/components/Rod.tsx: one rod, heavenly bead plus four earth beads, click and drag callbacks, movement constraints delegated to model helpers.
+- src/components/SorobanFrame.tsx: frame, reckoning bar, rod layout, responsive sizing.
+- src/components/ValueReadout.tsx: live computed value display.
+- src/components/RodCountControl.tsx: increase/decrease rod count.
+- src/components/ResetButton.tsx: reset action.
+- src/test or src/**/*.test.ts: unit tests for model and value engine.
+- e2e/*.spec.ts or tests/e2e/*.spec.ts: browser interaction coverage once the UI is assembled.
+- docs or README.md additions: production build and static hosting instructions.
+
+Shared state model
+- A rod represents one decimal digit with one heavenly bead worth 5 and four earth beads worth 1 each.
+- Store normalized logical state, not pixel positions: heavenly bead active boolean and earth count 0-4 are enough to represent valid soroban states.
+- Derive visual bead positions from logical state inside rendering helpers/components.
+- A board is an ordered array of rods. The rightmost rod should be the ones place; rods to the left increase by powers of ten.
+- Prefer immutable helper functions so React state updates and tests stay simple.
+
+Issue dependency map
+- #1 creates the Vite React TypeScript base required by #2, #3, and #4.
+- #2 adds Tailwind and the layout shell used by visual components and controls.
+- #3 adds ESLint, Prettier, env example, and test/tooling conventions used by later verification work.
+- #4 defines the model/types that #5, #6, #9, and #13 depend on.
+- #5 implements the Bead component, then #6 composes beads into Rod behavior.
+- #7 assembles Rod components into the complete frame.
+- #8 adds pointer/touch drag interaction after rod rendering exists.
+- #9 implements the value engine from the model.
+- #10 connects value computation to UI readout after #7/#9 are available.
+- #11 and #12 add board-level controls after state and frame composition are in place.
+- #13 tests model/value behavior.
+- #14 adds end-to-end interaction coverage once the UI has drag/click behavior and readout.
+- #15 polishes responsive layout after the full experience exists.
+- #16 validates production build output and documents static hosting.
+
+Key design decisions
+- Keep soroban rules in model helpers rather than component-local conditionals; components should ask the model for the next valid state.
+- Treat click and drag as different input methods that dispatch the same logical rod update operations.
+- Use semantic labels and test ids sparingly for accessible controls and stable tests.
+- Bound rod count with named constants to prevent unusable layouts on small screens while still allowing the board to resize.
+- Make styling responsive through CSS grid/flex and derived bead dimensions, avoiding hardcoded viewport-specific positions where possible.
+- Keep static hosting simple: Vite build output in dist/ can be served by any static file server.
